@@ -79,8 +79,8 @@ constructor(pipe: Utf8EmojisToImagesPipe) {
 
 In case you want to contribute/fork:
 
-1. Run `npm install --prefix ./projects/ng-utf8-emojis-to-images`
-1. Adept version and author in `./projects/ng-utf8-emojis-to-images/package.json`.
+1. Adept version and author in `./projects/ng-utf8-emojis-to-images/package.json` and commit to your forked repository.
+1. Run `npm install`.
 1. Run `npm run build-lib` which outputs the build to `./dist/ng-utf8-emojis-to-images`.
 1. Copy README.md to `./dist/ng-utf8-emojis-to-images` and modify it accordingly.
 1. Run `cd ./dist/ng-utf8-emojis-to-images && npm publish`.
