@@ -17,8 +17,8 @@
     ],
     "paths": {
       "ng-utf8-emojis-to-images": [
-        "dist/ng-utf8-emojis-to-images/ng-utf8-emojis-to-images",
-        "dist/ng-utf8-emojis-to-images"
+        "dist/ng-utf8-emojis-to-images",
+        "dist/ng-utf8-emojis-to-images/*"
       ]
     }
   },

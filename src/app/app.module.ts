@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { Utf8EmojisToImagesModule } from 'projects/ng-utf8-emojis-to-images/src/public-api';
+import { Utf8EmojisToImagesModule } from '../../projects/ng-utf8-emojis-to-images/src/public-api';
 
 @NgModule({
   declarations: [
