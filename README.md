@@ -1,27 +1,96 @@
-# Utf8EmojisToImagesDemo
+# ng-utf8-emojis-to-images
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
+Angular6+ pipe based on the library [@ctrl/ngx-emoji-mart](https://www.npmjs.com/package/@ctrl/ngx-emoji-mart) to transform HTML containing unicode emojis to HTML containing emoji image elements
 
-## Development server
+## Demo
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+For a demo either just checkout this project and run `npm install && npm run start` or visit [the StackBlitz demo page](https://stackblitz.com/github/lentschi/ng-utf8-emojis-to-images?file=src%2Fapp%2Fapp.component.html).
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+For use in an existing angular project run `npm install --save ng-utf8-emojis-to-images @ctrl/ngx-emoji-mart`
 
-## Build
+Then add the installed module to your `app.module.ts`:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```typescript
+import { Utf8EmojisToImagesModule } from 'ng-utf8-emojis-to-images';
 
-## Running unit tests
+// ...
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    Utf8EmojisToImagesModule
+  ]
+  // ...
+})
+export class AppModule {}
 
-## Running end-to-end tests
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Further help
+## Usage
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Without parameters
+
+Anywhere in your template:
+
+```html
+<div [innerHTML]="'<a title=\'Ang🧛‍♀️ular\'>Hello</a> 👌 Ang🧛‍♀️ular 👌!' | utf8EmojisToImages"></div>
+```
+
+By default the pipe will use the apple sheet
+(hosted at 'https://unpkg.com/emoji-datasource-apple@5.0.1/img/apple/sheets-256/64.png')
+- for available sheets see https://missive.github.io/emoji-mart/
+
+### With all available parameters (all of them optional!)
+
+```html
+<div [innerHTML]="html | utf8EmojisToImages:set:size:sheetSize:backgroundImageFn:sheetRows:sheetColumns"></div>
+```
+
+### Usage from within the component
+
+As with any pipe you can also use this one from your component if you follow those steps:
+
+1. Add the pipe to you components/modules providers: `providers: [ Utf8EmojisToImagesPipe ]`
+2. Simply inject it in the component's constructor - e.g.:
+
+```typescript
+constructor(pipe: Utf8EmojisToImagesPipe) {
+  const convertedHTML = pipe.emojisToImages('<a title="Ang🧛‍♀️ular">Hello</a> 👌 Ang🧛‍♀️ular 👌!');
+  console.log('Converted HTML: ', convertedHTML);
+}
+```
+
+### Parameters explained
+
+| parameter | meaning |
+| ---- | ---- |
+| set | emoji mart set to use for image representation
+| size | size of an emoji image in px
+| sheetSize | size of each original image - will be resized to size
+| backgroundImageFn | function to retrieve bg URL or path (see docs at https://github.com/TypeCtrl/ngx-emoji-mart)
+| sheetRows | number of emoji rows in image provided by `backgroundImageFn`
+| sheetColumns | number of emoji rows in image provided by `backgroundImageFn`
+
+
+## Build & publish on npm
+
+In case you want to contribute/fork:
+
+1. Run `npm install --prefix ./projects/ng-utf8-emojis-to-images`
+1. Adept version and author in `./projects/ng-utf8-emojis-to-images/package.json`.
+1. Run `npm run build-lib` which outputs the build to `./dist/ng-utf8-emojis-to-images`.
+1. Copy README.md to `./dist/ng-utf8-emojis-to-images` and modify it accordingly.
+1. Run `cd ./dist/ng-utf8-emojis-to-images && npm publish`.
+
+## Thank you...
+
+- ... __Scott Cooper__ for writing the [ngx-emoji-mart](https://github.com/TypeCtrl/ngx-emoji-mart) package which is internally used by this module.
+- ... __Etienne Lemay__ for writing the [emoji-mart](https://github.com/missive/emoji-mart) package which provides the base of `ngx-emoji-mart`.
+
+## License
+
+MIT

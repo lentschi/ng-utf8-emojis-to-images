@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('utf8-emojis-to-images-demo app is running!');
+    expect(page.getTitleText()).toEqual('ng-utf8-emojis-to-images-demo app is running!');
   });
 
   afterEach(async () => {

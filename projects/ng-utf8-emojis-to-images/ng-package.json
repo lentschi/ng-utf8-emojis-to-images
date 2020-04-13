@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/ng-utf8-emojis-to-images",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@ctrl/ngx-emoji-mart/ngx-emoji": "ngxEmoji",
+      "@ctrl/ngx-emoji-mart": "ngxEmojiMart"
+    }
+  }
+}

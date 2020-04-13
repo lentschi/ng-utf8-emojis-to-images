@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "utf8-emojis-to-images-demo": {
+    "ng-utf8-emojis-to-images-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/utf8-emojis-to-images-demo",
+            "outputPath": "dist/ng-utf8-emojis-to-images-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "utf8-emojis-to-images-demo:build"
+            "browserTarget": "ng-utf8-emojis-to-images-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "utf8-emojis-to-images-demo:build:production"
+              "browserTarget": "ng-utf8-emojis-to-images-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "utf8-emojis-to-images-demo:build"
+            "browserTarget": "ng-utf8-emojis-to-images-demo:build"
           }
         },
         "test": {
@@ -114,15 +114,59 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "utf8-emojis-to-images-demo:serve"
+            "devServerTarget": "ng-utf8-emojis-to-images-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "utf8-emojis-to-images-demo:serve:production"
+              "devServerTarget": "ng-utf8-emojis-to-images-demo:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "utf8-emojis-to-images-demo"
+    },
+    "ng-utf8-emojis-to-images": {
+      "projectType": "library",
+      "root": "projects/ng-utf8-emojis-to-images",
+      "sourceRoot": "projects/ng-utf8-emojis-to-images/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-utf8-emojis-to-images/tsconfig.lib.json",
+            "project": "projects/ng-utf8-emojis-to-images/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-utf8-emojis-to-images/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-utf8-emojis-to-images/src/test.ts",
+            "tsConfig": "projects/ng-utf8-emojis-to-images/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-utf8-emojis-to-images/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-utf8-emojis-to-images/tsconfig.lib.json",
+              "projects/ng-utf8-emojis-to-images/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ng-utf8-emojis-to-images-demo",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "ng-utf8-emojis-to-images",
+  "version": "1.0.0",
+  "description": "Angular6+ pipe to transform HTML containing unicode emojis to HTML containing emoji image elements",
+  "author": "Florian Lentsch",
+  "license": "MIT",
+  "readme": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lentschi/ng-utf8-emojis-to-images"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=6.0.0 <10.0.0 || >7.0.0-beta <10.0.0",
+    "@angular/core": ">=6.0.0 <10.0.0 || >7.0.0-beta <10.0.0",
+    "tslib": "^1.10.0",
+    "@ctrl/ngx-emoji-mart": "^3.0.4"
+  }
+}
