@@ -41,8 +41,7 @@ Anywhere in your template:
 ```
 
 By default the pipe will use the apple sheet
-(hosted at 'https://unpkg.com/emoji-datasource-apple@5.0.1/img/apple/sheets-256/64.png')
-- for available sheets see https://missive.github.io/emoji-mart/
+(hosted at https://unpkg.com/emoji-datasource-apple@5.0.1/img/apple/sheets-256/64.png) - for other available sheets see https://missive.github.io/emoji-mart/
 
 ### With all available parameters (all of them optional!)
 
@@ -52,7 +51,7 @@ By default the pipe will use the apple sheet
 
 ### Usage from within the component
 
-As with any pipe you can also use this one from your component if you follow those steps:
+As with any pipe you can also use this one directly from your component if you follow those steps:
 
 1. Add the pipe to you components/modules providers: `providers: [ Utf8EmojisToImagesPipe ]`
 2. Simply inject it in the component's constructor - e.g.:
