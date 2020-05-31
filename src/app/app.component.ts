@@ -7,7 +7,7 @@ import { Component, Renderer2 } from '@angular/core';
 })
 export class AppComponent  {
   htmlString = '<a title="Ang🧛‍♀️ular">Hello</a> 👌 Ang🧛‍♀️ular 👌!';
-  sheet: '' | 'apple' | 'facebook' | 'twitter' | 'google' | 'font' = 'apple';
+  sheet: '' | 'apple' | 'facebook' | 'twitter' | 'google' | 'replaceFn' = 'apple';
   size = 22;
   sheetSize: 16 | 20 | 32 | 64 = 64;
   sheetRows = 57;
@@ -17,14 +17,8 @@ export class AppComponent  {
   elementFn = (unicodeEmoji: string): HTMLElement =>  {
     const span = this.renderer.createElement('span') as HTMLElement;
     span.innerText = unicodeEmoji;
-    span.classList.add('emoji');
+    span.classList.add('customEmoji');
     return span;
-
-    // Note that this sample is kind of pointless (you could just write
-    // `font-family: 'Emojione', your-alternative-font;` and thereby have the
-    // browser replace all the unicode characters itself. Take care: Not all
-    // the browsers support these kinds of fonts yet! So you could make this browser
-    // dependant...)
   }
 
   constructor(private renderer: Renderer2) {}

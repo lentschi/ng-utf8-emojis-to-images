@@ -1,17 +1,16 @@
-
 <h1>ng-utf8-emojis-to-images demo</h1>
 <h3>Input</h3>
 <p>Enter HTML containing unicode emojis here:</p>
 <input type="text" size="90" [(ngModel)]="htmlString" />
 <p>Add from <code>@ctrl/ngx-emoji-mart</code> (to the front of the above input):</p>
-<emoji-mart (emojiClick)="addEmoji($event)" [set]="sheet === '' || sheet === 'font' ? null : sheet" [isNative]="sheet === ''"></emoji-mart>
+<emoji-mart (emojiClick)="addEmoji($event)" [set]="sheet === '' || sheet === 'replaceFn' ? null : sheet" [isNative]="sheet === '' || sheet === 'replaceFn'"></emoji-mart>
 <hr>
 
 <h3>Output</h3>
 <p>Rendered HTML containing emojis as image elements:</p>
 <div [ngStyle]="{fontSize: size + 'px'}">
   <p
-      *ngIf="sheet !== 'font'; else customReplaceSample"
+      *ngIf="sheet !== 'replaceFn'; else customReplaceSample"
       [innerHTML]= "sheet !== '' ? (htmlString | utf8EmojisToImages:sheet:size:sheetSize:backgroundImageFn:sheetRows:sheetColumns) : htmlString">
     Start editing to see some magic happen :)
   </p>
@@ -45,8 +44,8 @@
 </div>
 
 <div>
-  <input type="radio" value="font" id="font" name="sheet" [(ngModel)]="sheet" >
-  <label for="font">Emojione font (using custom element creation callback)</label>
+  <input type="radio" value="replaceFn" id="replaceFn" name="sheet" [(ngModel)]="sheet" >
+  <label for="replaceFn">Custom replace fn sample</label>
 </div>
 
 <div>
