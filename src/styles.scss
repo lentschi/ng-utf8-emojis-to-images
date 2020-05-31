@@ -1,12 +1,2 @@
 // Import ngx-emoji-mart styles for the picker in the demo app:
 @import '~@ctrl/ngx-emoji-mart/picker';
-
-@font-face {
-  font-family: 'Emojione';
-  src: url("https://github.com/joypixels/emojione-assets/releases/download/3.1.2/emojione-svg.woff2") format("woff2"),
-    url("https://github.com/joypixels/emojione-assets/releases/download/3.1.2/emojione-svg.woff") format("woff"),
-    url("https://github.com/joypixels/emojione-assets/releases/download/3.1.2/emojione-svg.otf") format("truetype");
-}
-.emoji {
-  font-family: "Emojione";
-}
