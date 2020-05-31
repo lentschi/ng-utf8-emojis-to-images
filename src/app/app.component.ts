@@ -19,6 +19,12 @@ export class AppComponent  {
     span.innerText = unicodeEmoji;
     span.classList.add('emoji');
     return span;
+
+    // Note that this sample is kind of pointless (you could just write
+    // `font-family: 'Emojione', your-alternative-font;` and thereby have the
+    // browser replace all the unicode characters itself. Take care: Not all
+    // the browsers support these kinds of fonts yet! So you could make this browser
+    // dependant...)
   }
 
   constructor(private renderer: Renderer2) {}
