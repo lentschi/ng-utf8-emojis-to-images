@@ -83,7 +83,7 @@ Alternatively you can pass a __callback function for emoji replacement__ as sing
 
 ... and in the component:
 
-```
+```typescript
 replaceFn = (unicodeEmoji: string, element: CharacterData, position: number): HTMLElement =>  {
   // Create and return a HTMLElement that should substitute the unicode emoji
   // Parameters passed to this function:
