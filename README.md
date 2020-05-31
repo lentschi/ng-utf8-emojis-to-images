@@ -72,8 +72,26 @@ constructor(pipe: Utf8EmojisToImagesPipe) {
 | sheetSize | size of each original image - will be resized to size
 | backgroundImageFn | function to retrieve bg URL or path (see docs at https://github.com/TypeCtrl/ngx-emoji-mart)
 | sheetRows | number of emoji rows in image provided by `backgroundImageFn`
-| sheetColumns | number of emoji rows in image provided by `backgroundImageFn`
+| sheetColumns | number of emoji columns in image provided by `backgroundImageFn`
 
+
+Alternatively you can pass a __callback function for emoji replacement__ as single paramerter:
+
+```html
+<div [innerHTML]="html | utf8EmojisToImages:replaceFn"></div>
+```
+
+... and in the component:
+
+```
+replaceFn = (unicodeEmoji: string, element: CharacterData, position: number): HTMLElement =>  {
+  // Create and return a HTMLElement that should substitute the unicode emoji
+  // Parameters passed to this function:
+  // `unicodeEmoji` -> the emoji
+  // `element` -> the text node element in which the emoji is contained
+  // `position` -> the offset within the text element
+}
+```
 
 ## Build & publish on npm
 

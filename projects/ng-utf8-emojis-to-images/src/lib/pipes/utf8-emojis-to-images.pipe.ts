@@ -20,7 +20,7 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
    * Utility method to get all text node descendants of a DOM node
    * @param node the DOM node to get text nodes for
    */
-  public static getAllTextNodes(node: Node) {
+  public static getAllTextNodes(node: Node): CharacterData[] {
     const all = [];
     for (node = node.firstChild; node; node = node.nextSibling) {
       if (node.nodeType === Node.TEXT_NODE) {
@@ -41,7 +41,7 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
   /**
    * Pipe transform entry point
    * @param html HTML to parse
-   * @param set emoji mart set to use for image representation
+   * @param setOrElementFn emoji mart set to use for image representation or callback for custom element creation
    * @param size size of an emoji image in px
    * @param sheetSize sheetSize (size of each original image - will be resized to size)
    * @param backgroundImageFn function to retrieve bg URL or path (see docs at https://github.com/TypeCtrl/ngx-emoji-mart)
@@ -50,7 +50,8 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
    */
   public transform(
     html: string,
-    set: '' | 'apple' | 'facebook' | 'twitter' | 'google' = 'apple',
+    setOrElementFn: '' | 'apple' | 'facebook' | 'twitter' | 'google'
+      | ((unicodeEmoji: string, element: CharacterData, position: number) => HTMLElement)= 'apple',
     size?: number,
     sheetSize?: 16 | 20 | 32 | 64,
     backgroundImageFn?: (set: string, sheetSize: number) => string,
@@ -60,7 +61,7 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
     return this.sanitizer.bypassSecurityTrustHtml(
       this.emojisToImages(
         html,
-        set,
+        setOrElementFn,
         size,
         sheetSize,
         backgroundImageFn,
@@ -72,16 +73,20 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
 
   /**
    * Replaces all unicode emojis available through emoji-mart with a span displaying
-   * the image representation of that emoji
+   * the image representation of that emoji (or utilizes a custom callback for replacement, if passed)
    * @param html HTML to parse
-   * @param set emoji mart set to use for image representation
+   * @param setOrElementFn emoji mart set to use for image representation or callback for custom element creation
    * @param size size of an emoji image in px
    * @param sheetSize sheetSize (size of each original image - will be resized to size)
    * @param backgroundImageFn function to retrieve bg URL or path (see docs at https://github.com/TypeCtrl/ngx-emoji-mart)
+   * @param sheetRows number of emoji rows in image provided by `backgroundImageFn`
+   * @param sheetColumns number of emoji columns in image provided by `backgroundImageFn`
+   * @returns html with replaced emojis
    */
   public emojisToImages(
     html: string,
-    set?: '' | 'apple' | 'facebook' | 'twitter' | 'google',
+    setOrElementFn?: '' | 'apple' | 'facebook' | 'twitter' | 'google'
+      | ((unicodeEmoji: string, element: CharacterData, position: number) => HTMLElement),
     size?: number,
     sheetSize?: 16 | 20 | 32 | 64,
     backgroundImageFn?: (set: string, sheetSize: number) => string,
@@ -108,26 +113,27 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
         const hexCode = hexCodeSegments.join('-');
         const matchingData = this.findEmojiData(hexCode);
         if (matchingData) {
-          const span = document.createElement('span');
-          span.setAttribute('contenteditable', 'false');
-          span.className = 'emoji-pipe-image';
-
-          const styles = this.emojiService.emojiSpriteStyles(
-            matchingData.sheet,
-            set,
-            size,
-            sheetSize,
-            sheetRows,
-            backgroundImageFn,
-            sheetColumns
-          );
-          Object.assign(span.style, styles);
+          let emojiElement: HTMLElement;
+          if (typeof setOrElementFn === 'string') {
+            emojiElement = this.createEmojiImageSpan(
+              unicodeEmoji,
+              matchingData.sheet,
+              setOrElementFn,
+              size,
+              sheetSize,
+              backgroundImageFn,
+              sheetRows,
+              sheetColumns
+            );
+          } else {
+            emojiElement = setOrElementFn(unicodeEmoji, currentItem, match.index);
+          }
 
           const text = currentItem.textContent;
           currentItem.textContent = text.substr(0, match.index);
-          currentItem.parentNode.insertBefore(span, currentItem.nextSibling);
+          currentItem.parentNode.insertBefore(emojiElement, currentItem.nextSibling);
           currentItem = this.document.createTextNode(text.substr(match.index + match[0].length));
-          span.parentNode.insertBefore(currentItem, span.nextSibling);
+          emojiElement.parentNode.insertBefore(currentItem, emojiElement.nextSibling);
 
           this.emojiRegex.lastIndex = 0;
         }
@@ -135,6 +141,37 @@ export class Utf8EmojisToImagesPipe implements PipeTransform {
     }
 
     return div.innerHTML;
+  }
+
+  private createEmojiImageSpan(
+    unicodeEmoji: string,
+    sheet: [number, number],
+    set: '' | 'apple' | 'facebook' | 'twitter' | 'google',
+    size?: number,
+    sheetSize?: 16 | 20 | 32 | 64,
+    backgroundImageFn?: (set: string, sheetSize: number) => string,
+    sheetRows?: number,
+    sheetColumns?: number
+  ): HTMLElement {
+    const span = document.createElement('span');
+    span.setAttribute('contenteditable', 'false');
+    span.className = 'emoji-pipe-image';
+    span.innerText = unicodeEmoji;
+
+    const styles: Partial<CSSStyleDeclaration> = this.emojiService.emojiSpriteStyles(
+      sheet,
+      set,
+      size,
+      sheetSize,
+      sheetRows,
+      backgroundImageFn,
+      sheetColumns
+    );
+    styles.overflow = 'hidden';
+    styles.textIndent = '-1000px';
+    Object.assign(span.style, styles);
+
+    return span;
   }
 
   /**

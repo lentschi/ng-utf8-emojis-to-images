@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,13 +7,21 @@ import { Component } from '@angular/core';
 })
 export class AppComponent  {
   htmlString = '<a title="Ang🧛‍♀️ular">Hello</a> 👌 Ang🧛‍♀️ular 👌!';
-  sheet: '' | 'apple' | 'facebook' | 'twitter' |  'google' = 'apple';
+  sheet: '' | 'apple' | 'facebook' | 'twitter' | 'google' | 'font' = 'apple';
   size = 22;
   sheetSize: 16 | 20 | 32 | 64 = 64;
   sheetRows = 57;
   sheetColumns = 57;
   backgroundUrl = 'https://unpkg.com/emoji-datasource-${set}@5.0.1/img/${set}/sheets-256/${sheetSize}.png';
 
+  elementFn = (unicodeEmoji: string): HTMLElement =>  {
+    const span = this.renderer.createElement('span') as HTMLElement;
+    span.innerText = unicodeEmoji;
+    span.classList.add('emoji');
+    return span;
+  }
+
+  constructor(private renderer: Renderer2) {}
 
   backgroundImageFn = (set: string, sheetSize: number) =>
     this.backgroundUrl.replace(/\$\{set\}/g, set).replace(/\$\{sheetSize\}/g, String(sheetSize))
