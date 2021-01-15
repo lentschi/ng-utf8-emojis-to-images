@@ -11,8 +11,8 @@ export class AppComponent  {
   size = 22;
   sheetSize: 16 | 20 | 32 | 64 = 64;
   sheetRows = 57;
-  sheetColumns = 57;
-  backgroundUrl = 'https://unpkg.com/emoji-datasource-${set}@5.0.1/img/${set}/sheets-256/${sheetSize}.png';
+  sheetColumns = 58;
+  backgroundUrl = 'https://unpkg.com/emoji-datasource-${set}@6.0.0/img/${set}/sheets-256/${sheetSize}.png';
 
   elementFn = (unicodeEmoji: string): HTMLElement =>  {
     const span = this.renderer.createElement('span') as HTMLElement;
